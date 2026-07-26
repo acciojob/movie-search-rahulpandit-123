@@ -5,9 +5,8 @@ const MovieSearch = () => {
   const [result, setResult] = useState([])
   const [search, setSearch] = useState('')
   const [message,setMessage] = useState("")
-
-
-    function handlesearch() {
+    function handlesearch(e) {
+        e.preventDefault()
   fetch(`https://www.omdbapi.com/?apikey=99eb9fd1&s=${search}`)
     .then(response => response.json())
     .then(data => {
@@ -24,7 +23,7 @@ const MovieSearch = () => {
   return (
     <div>
       <h1>Search Movie</h1>
-
+    <form>
       <input
         type="text"
         value={search}
@@ -33,15 +32,18 @@ const MovieSearch = () => {
 
       <button onClick={handlesearch}>Search</button>
 
-      {result.map((r) => (
-        <ul>
+      </form>
+    <ul>
+      {result.map((r,idx) => (
+        
         <li key={r.imdbID}>
           <h2>{r.Title}({r.Year})</h2>
           <img src={r.Poster} alt={r.Title} width="150" />
         </li>
-        </ul>
+        
       ))}
-      <p>{message}</p>
+      </ul>
+      <p className='error'>{message}</p>
     </div>
   )
 }
